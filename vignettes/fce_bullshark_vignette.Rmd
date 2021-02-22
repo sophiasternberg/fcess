@@ -1,0 +1,71 @@
+---
+title: "fce_bullshark_vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{fce_bullshark_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(fcess)
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+head(fce_bullshark)
+```
+
+```{r}
+ggplot(data = fce_bullshark, aes(x = Date, y = Bull_Shark_Count)) +
+  geom_point() +
+  labs(x = "Date",
+    y = "Number of Bull Sharks",
+    title = "Bull Shark Counts Overtime")
+```
+```{r}
+ggplot(data = fce_bullshark, aes(x = Date, y = Temperature)) +
+  geom_point() +
+  labs(x = "Date",
+    y = "Temperature",
+    title = "Temperature Overtime")
+```
+
+```{r}
+ggplot(data = fce_bullshark, aes(x = Date, y = Salinity)) +
+  geom_point() +
+  labs(x = "Date",
+    y = "Salinity",
+    title = "Salinity Overtime")
+```
+```{r}
+ggplot(data = fce_bullshark, aes(x = Date, y = Bull_Shark_Count)) +
+      geom_bar(stat = "identity", fill = "dodgerblue") +
+      labs(title = "Total Bull Shark Count",
+           x = "Date", 
+           y = "Number of Bull Sharks")
+```
+```{r}
+plot(Bull_Shark_Count~Temperature, 
+     data = fce_bullshark,
+     main = "Temperature and Bull Shark Relationship",
+     xlab = "Temperature (Cº)",
+     ylab = "Bull Shark Counts")
+# looks like the warmer it is, the higher the count of bull sharks
+```
+```{r}
+plot(Bull_Shark_Count~Salinity, 
+     data = fce_bullshark,
+     main = "Salinity and Bull Shark Relationship",
+     xlab = "Salinity",
+     ylab = "Bull Shark Counts")
+```
+
