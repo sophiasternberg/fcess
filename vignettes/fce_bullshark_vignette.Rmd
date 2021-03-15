@@ -16,56 +16,112 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(fcess)
-library(ggplot2)
 library(tidyverse)
 ```
 
 ```{r}
+# View initial data
 head(fce_bullshark)
+```
+```{r}
+# Detach Year, Month, and Day from the Date variable
+fce_bullshark <- fce_bullshark %>% mutate(Year = format(Date, "%Y"),
+                                          Month = format(Date, "%m"),
+                                          Day = format(Date, "%d"))
+fce_bullshark
 ```
 
 ```{r}
-ggplot(data = fce_bullshark, aes(x = Date, y = Bull_Shark_Count)) +
-  geom_point() +
-  labs(x = "Date",
+# Group the counts of Bull Sharks by Year
+counts <- fce_bullshark %>% 
+  group_by(Year) %>% 
+  summarise(bycount = sum(Bull_Shark_Count))
+```
+
+```{r}
+# Plot Bull Shark Count Overtime
+ggplot(data = counts, aes(x = Year, y = bycount, fill = bycount)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Year",
     y = "Number of Bull Sharks",
-    title = "Bull Shark Counts Overtime")
+    title = "Bull Shark Counts Overtime") +
+  geom_text(aes(label = bycount))
+```
+
+```{r}
+# Group the counts of Bull Sharks by Sitename
+sitecounts <- fce_bullshark %>% 
+  group_by(SITENAME, Year) %>% 
+  summarise(bycount = sum(Bull_Shark_Count), temp = mean(Temperature))
+sitecounts
 ```
 ```{r}
+# Plot the site Bullshark counts from 2005 to 2009
+ggplot(data = sitecounts, aes(x = Year, y = bycount, group = SITENAME, color = SITENAME)) +
+  geom_line() +
+  labs(x = "Year",
+       y = "Bull Shark Count",
+       title = "Bull Shark Counts by Site")
+  
+```
+
+```{r}
 ggplot(data = fce_bullshark, aes(x = Date, y = Temperature)) +
-  geom_point() +
+  geom_line() +
   labs(x = "Date",
     y = "Temperature",
     title = "Temperature Overtime")
 ```
 
 ```{r}
+# Plot the site Bullshark counts from 2005 to 2009
+ggplot(data = sitecounts, aes(x = Year, y = temp, group = SITENAME, color = SITENAME)) +
+  geom_line() +
+  labs(x = "Year",
+       y = "Temperature (Cº)",
+       title = "Yearly Mean Temperatures by Site")
+```
+```{r}
+# boxplot by salinity by site
+ggplot(data = fce_bullshark, aes(x = reorder(SITENAME, Salinity, FUN = median), 
+                                 y = Salinity, 
+                                 color =SITENAME)) +
+  geom_boxplot() +
+  labs(x = "Site Name",
+       y = "Salinity", 
+       title = "Salinity by Site")
+```
+
+```{r}
 ggplot(data = fce_bullshark, aes(x = Date, y = Salinity)) +
-  geom_point() +
+  geom_line() +
   labs(x = "Date",
     y = "Salinity",
     title = "Salinity Overtime")
 ```
 ```{r}
-ggplot(data = fce_bullshark, aes(x = Date, y = Bull_Shark_Count)) +
+year06 <- as.tibble(fce_bullshark)
+year06 <- filter(fce_bullshark, Date >= as.Date("2006-01-01"), Date <= as.Date("2006-12-31"))
+```
+
+```{r}
+ggplot(data = year06, aes(x = Date, y = Bull_Shark_Count)) +
       geom_bar(stat = "identity", fill = "dodgerblue") +
       labs(title = "Total Bull Shark Count",
            x = "Date", 
            y = "Number of Bull Sharks")
 ```
 ```{r}
-plot(Bull_Shark_Count~Temperature, 
-     data = fce_bullshark,
-     main = "Temperature and Bull Shark Relationship",
-     xlab = "Temperature (Cº)",
-     ylab = "Bull Shark Counts")
-# looks like the warmer it is, the higher the count of bull sharks
+year09 <- as.tibble(fce_bullshark)
+year09 <- filter(fce_bullshark, Date >= as.Date("2009-01-01"), Date <= as.Date("2009-12-31"))
 ```
+
 ```{r}
-plot(Bull_Shark_Count~Salinity, 
-     data = fce_bullshark,
-     main = "Salinity and Bull Shark Relationship",
-     xlab = "Salinity",
-     ylab = "Bull Shark Counts")
+ggplot(data = year09, aes(x = Date, y = Bull_Shark_Count)) +
+      geom_bar(stat = "identity", fill = "dodgerblue") +
+      labs(title = "Total Bull Shark Count",
+           x = "Date", 
+           y = "Number of Bull Sharks")
 ```
+
 
