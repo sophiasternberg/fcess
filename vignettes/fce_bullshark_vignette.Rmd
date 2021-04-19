@@ -45,7 +45,8 @@ ggplot(data = counts, aes(x = Year, y = bycount, fill = bycount)) +
   labs(x = "Year",
     y = "Number of Bull Sharks",
     title = "Bull Shark Counts Overtime") +
-  geom_text(aes(label = bycount))
+  geom_text(aes(label = bycount)) +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r}
@@ -61,8 +62,8 @@ ggplot(data = sitecounts, aes(x = Year, y = bycount, group = SITENAME, color = S
   geom_line() +
   labs(x = "Year",
        y = "Bull Shark Count",
-       title = "Bull Shark Counts by Site")
-  
+       title = "Bull Shark Counts by Site") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r}
@@ -70,7 +71,8 @@ ggplot(data = fce_bullshark, aes(x = Date, y = Temperature)) +
   geom_line() +
   labs(x = "Date",
     y = "Temperature",
-    title = "Temperature Overtime")
+    title = "Temperature Overtime") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r}
@@ -79,7 +81,8 @@ ggplot(data = sitecounts, aes(x = Year, y = temp, group = SITENAME, color = SITE
   geom_line() +
   labs(x = "Year",
        y = "Temperature (Cº)",
-       title = "Yearly Mean Temperatures by Site")
+       title = "Yearly Mean Temperatures by Site") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 ```{r}
 # boxplot by salinity by site
@@ -89,7 +92,8 @@ ggplot(data = fce_bullshark, aes(x = reorder(SITENAME, Salinity, FUN = median),
   geom_boxplot() +
   labs(x = "Site Name",
        y = "Salinity", 
-       title = "Salinity by Site")
+       title = "Salinity by Site") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r}
@@ -97,7 +101,8 @@ ggplot(data = fce_bullshark, aes(x = Date, y = Salinity)) +
   geom_line() +
   labs(x = "Date",
     y = "Salinity",
-    title = "Salinity Overtime")
+    title = "Salinity Overtime") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 ```{r}
 year06 <- as.tibble(fce_bullshark)
@@ -109,7 +114,8 @@ ggplot(data = year06, aes(x = Date, y = Bull_Shark_Count)) +
       geom_bar(stat = "identity", fill = "dodgerblue") +
       labs(title = "Total Bull Shark Count",
            x = "Date", 
-           y = "Number of Bull Sharks")
+           y = "Number of Bull Sharks") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 ```{r}
 year09 <- as.tibble(fce_bullshark)
@@ -121,7 +127,12 @@ ggplot(data = year09, aes(x = Date, y = Bull_Shark_Count)) +
       geom_bar(stat = "identity", fill = "dodgerblue") +
       labs(title = "Total Bull Shark Count",
            x = "Date", 
-           y = "Number of Bull Sharks")
+           y = "Number of Bull Sharks") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
+# Citation 
 
+Heithaus, M. and P. Matich. 2014. Bull shark catches, water temperatures, salinities, and dissolved oxygen levels in the Shark River Slough, Everglades National Park (FCE) , from May 2005 to May 2009 ver 3. Environmental Data Initiative. https://doi.org/10.6073/pasta/04a8792fed9ceed4237bd3273a97e8f8 (Accessed 2021-04-19).
+
+# How we processed the data
 
